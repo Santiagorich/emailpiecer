@@ -45,7 +45,7 @@ function EmailPiecer() {
                         dispatch(setSelected({ index, selindex }));
                       }}
                       key={value}
-                      className={` rounded-lg p-2 border-2 border-gray-200 ${
+                      className={` rounded-lg p-2 border-[1px] border-gray-400 ${
                         emailTemplate[index].selected == selindex
                           ? `bg-purple-300`
                           : `bg-transparent hover:bg-purple-400`
@@ -60,12 +60,12 @@ function EmailPiecer() {
           })}
         </div>
       )}
-      <div className=" w-1/2 flex flex-col gap-2">
-        <div className="bg-transparent border-2 border-gray-200 rounded-lg overflow-hidden h-full">
+      <div className=" w-1/2 flex flex-col">
+        <div className="bg-transparent rounded-t-lg overflow-hidden h-full">
           <ReactQuill className="h-full" theme="snow" value={email} onChange={setEmail} />
         </div>
         <div className="flex flex-row justify-between ">
-          <div className="bg-blue-700 p-2 rounded-lg w-full flex justify-center">
+          <div className="bg-blue-700 p-2 rounded-b-lg w-full flex justify-center">
             <CopyToClipboard text={email}>
               <button className="text-white w-full">
                 Copy to clipboard
