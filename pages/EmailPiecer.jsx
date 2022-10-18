@@ -6,7 +6,9 @@ import "react-quill/dist/quill.snow.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { dynamic } from "next/dynamic";
 function EmailPiecer() {
-  dynamic(() => import("react-quill/dist/react-quill.js"), { ssr: false });
+  dynamic(import("react-quill"), {
+    ssr: false,
+  });
   const dispatch = useDispatch();
   const emailTemplate = useSelector((state) => state.mainSlice.emailTemplate);
 
