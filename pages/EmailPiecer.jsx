@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelected } from "../stores/slices/mainSlice";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { dynamic } from "next/dynamic";
