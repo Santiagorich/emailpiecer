@@ -1,56 +1,92 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEmailTemplate } from "../../stores/slices/mainslice";
 import { useRouter } from "next/router";
+import { app } from "../../utils/firebase";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+} from "firebase/firestore";
+const db = getFirestore(app);
+const getAllTemplates = async () => {
+  let snapshot = await getDocs(collection(db, "templates"));
+  let templateArr = [];
+  snapshot.forEach((doc) => {
+    templateArr.push(doc.data());
+  });
+  return templateArr;
+};
+export async function getStaticProps() {
+  const preload = await getAllTemplates();
+  return {
+    props: {
+      preload,
+    },
+    revalidate: 120,
+  };
+}
+function SearchInput({preload}) {
 
-function SearchInput() {
+
+  const [templates, setTemplates] = useState(preload);
   const dispatch = useDispatch();
   const inputRef = React.useRef(null);
   const router = useRouter();
-  const emailTemplate = [
-    { type: "greetings", selection: ["Hello", "Hi", "Hey"], selected: null },
-    {
-      type: "purpose",
-      selection: ["I am writing to you to", "I am contacting you to"],
-      selected: null,
-    },
-    {
-      type: "action",
-      selection: ["invite you to", "request you to", "ask you to"],
-      selected: null,
-    },
-    {
-      type: "event",
-      selection: ["a meeting", "a conference", "a webinar"],
-      selected: null,
-    },
-    {
-      type: "date",
-      selection: ["on 1st January", "on 2nd February", "on 3rd March"],
-      selected: null,
-    },
-    {
-      type: "time",
-      selection: ["at 10:00 AM", "at 11:00 AM", "at 12:00 PM"],
-      selected: null,
-    },
-    {
-      type: "venue",
-      selection: [
-        "at our office",
-        "at our conference hall",
-        "at our webinar room",
-      ],
-      selected: null,
-    },
-    {
-      type: "closing",
-      selection: ["Thank you", "Regards", "Best regards"],
-      selected: null,
-    },
-  ];
-  const handleSubmit = (input) => {
-    dispatch(setEmailTemplate(emailTemplate));
+  // const emailTemplate = {
+  //   name: "General",
+  //   template: [
+  //     { type: "greetings", selection: ["Hello", "Hi", "Hey"], newline: true },
+  //     {
+  //       type: "purpose",
+  //       selection: ["I am writing to you to", "I am contacting you to"],
+  //       newline: true,
+  //     },
+  //     {
+  //       type: "action",
+  //       selection: ["invite you to", "request you to", "ask you to"],
+  //       newline: true,
+  //     },
+  //     {
+  //       type: "event",
+  //       selection: ["a meeting", "a conference", "a webinar"],
+  //       newline: true,
+  //     },
+  //     {
+  //       type: "date",
+  //       selection: ["on 1st January", "on 2nd February", "on 3rd March"],
+  //       newline: true,
+  //     },
+  //     {
+  //       type: "time",
+  //       selection: ["at 10:00 AM", "at 11:00 AM", "at 12:00 PM"],
+  //       newline: true,
+  //     },
+  //     {
+  //       type: "venue",
+  //       selection: [
+  //         "at our office",
+  //         "at our conference hall",
+  //         "at our webinar room",
+  //       ],
+  //       newline: true,
+  //     },
+  //     {
+  //       type: "closing",
+  //       selection: ["Thank you", "Regards", "Best regards"],
+  //       newline: true,
+  //     },
+  //   ],
+  // };
+  useEffect(() => {
+    getAllTemplates().then((templates) => {
+      setTemplates(templates);
+    });
+    // addDoc(collection(db, "templates"), emailTemplate);
+  }, []);
+
+  const handleSubmit = (template) => {
+    dispatch(setEmailTemplate(template.template));
     router.push("/EmailPiecer");
   };
   return (
@@ -74,26 +110,30 @@ function SearchInput() {
             ></path>
           </svg>
         </div>
-        <input
-          ref={inputRef}
-          type="search"
-          id="default-search"
-          className="block p-4 pl-6 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="What kind of email are you looking for"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSubmit(inputRef.current.value);
-            }
-          }}
-          required
-        ></input>
-        <button
+        {/* List with all the templates */}
+        {templates && (
+          <div className="absolute w-full mt-1 bg-white rounded-md shadow-lg max-h-60 overflow-y-auto z-10 dark:bg-gray-800">
+            {templates.map((template) => (
+              <div 
+                key={template.name}
+                className="px-4 py-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                onClick={() => {
+                  handleSubmit(template);
+                }}
+              >
+                {template.name}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* <button
           type="submit"
           onClick={() => handleSubmit(inputRef.current.value)}
           className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Search
-        </button>
+        </button> */}
       </div>
     </div>
   );

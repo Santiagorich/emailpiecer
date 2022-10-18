@@ -11,10 +11,12 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "draft-js": "^0.11.7",
+    "firebase": "^9.12.1",
     "next": "12.3.1",
     "react": "18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
-    "react-draft-wysiwyg": "^1.15.0",
+    "react-quill": "^2.0.0",
     "react-redux": "^8.0.4",
     "slate": "^0.82.1",
     "slate-history": "^0.66.0",
