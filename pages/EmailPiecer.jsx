@@ -4,8 +4,9 @@ import { setSelected } from "../stores/slices/mainSlice";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-
+import { dynamic } from "next/dynamic";
 function EmailPiecer() {
+  dynamic(() => import("react-quill/dist/quill.js"), { ssr: false });
   const dispatch = useDispatch();
   const emailTemplate = useSelector((state) => state.mainSlice.emailTemplate);
 
@@ -16,8 +17,9 @@ function EmailPiecer() {
         .filter((item) => item.selected != null)
         //.map((item) => item.selection[item.selected])
         .map((item) => {
-         return item.selection[item.selected] + (item.newline ? "<br>" : "");
-        }).join('')
+          return item.selection[item.selected] + (item.newline ? "<br>" : "");
+        })
+        .join("")
     );
   }, [emailTemplate]);
 
