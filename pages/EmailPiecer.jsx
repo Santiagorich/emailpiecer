@@ -35,9 +35,9 @@ function EmailPiecer() {
           {emailTemplate.map((item, index) => {
             return (
               <div className="flex flex-col gap-2" key={item.type}>
-                <span className="font-bold text-black">
+                {/* <span className="font-bold text-white">
                   {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-                </span>
+                </span> */}
                 <div className="flex flex-row gap-2">
                   {emailTemplate[index].selection.map((value, selindex) => (
                     <div
@@ -45,7 +45,7 @@ function EmailPiecer() {
                         dispatch(setSelected({ index, selindex }));
                       }}
                       key={value}
-                      className={` rounded-lg p-2 border-2 border-gray-900 ${
+                      className={` rounded-lg p-2 border-2 border-gray-200 ${
                         emailTemplate[index].selected == selindex
                           ? `bg-purple-300`
                           : `bg-transparent hover:bg-purple-400`
@@ -61,7 +61,7 @@ function EmailPiecer() {
         </div>
       )}
       <div className=" w-1/2 flex flex-col gap-2">
-        <div className="bg-transparent border-2 border-gray-900 rounded-lg overflow-hidden h-full">
+        <div className="bg-transparent border-2 border-gray-200 rounded-lg overflow-hidden h-full">
           <ReactQuill className="h-full" theme="snow" value={email} onChange={setEmail} />
         </div>
         <div className="flex flex-row justify-between ">
