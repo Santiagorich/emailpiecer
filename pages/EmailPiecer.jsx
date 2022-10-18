@@ -47,8 +47,8 @@ function EmailPiecer() {
                       key={value}
                       className={` rounded-lg p-2 border-2 border-gray-900 ${
                         emailTemplate[index].selected == selindex
-                          ? `bg-purple-500`
-                          : `bg-transparent hover:bg-purple-600`
+                          ? `bg-purple-300`
+                          : `bg-transparent hover:bg-purple-400`
                       }  cursor-pointer `}
                     >
                       <span>{value}</span>
