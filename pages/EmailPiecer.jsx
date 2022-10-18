@@ -3,25 +3,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelected } from "../stores/slices/mainSlice";
 import "react-quill/dist/quill.snow.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { dynamic } from "next/dynamic";
+import dynamic from "next/dynamic";
+
 function EmailPiecer() {
-  const ReactQuill = dynamic(import("react-quill"), {
-    ssr: false,
-  });
+  const ReactQuill = dynamic(
+    () => import("react-quill"),
+    { ssr: false }
+  );
   const dispatch = useDispatch();
   const emailTemplate = useSelector((state) => state.mainSlice.emailTemplate);
 
   const [email, setEmail] = React.useState(null);
   useEffect(() => {
-    setEmail(
-      emailTemplate
-        .filter((item) => item.selected != null)
-        //.map((item) => item.selection[item.selected])
-        .map((item) => {
-          return item.selection[item.selected] + (item.newline ? "<br>" : "");
-        })
-        .join("")
-    );
+    if (emailTemplate) {
+      setEmail(
+        emailTemplate
+          .filter((item) => item.selected != null)
+          //.map((item) => item.selection[item.selected])
+          .map((item) => {
+            return item.selection[item.selected] + (item.newline ? "<br>" : "");
+          })
+          .join("")
+      );
+    }
   }, [emailTemplate]);
 
   return (
