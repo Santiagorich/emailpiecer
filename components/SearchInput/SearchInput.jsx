@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setEmailTemplate } from "../../stores/slices/mainslice";
+import { setEmailTemplate } from "../../stores/slices/mainSlice";
 import { useRouter } from "next/router";
 import { app } from "../../utils/firebase";
 import {
