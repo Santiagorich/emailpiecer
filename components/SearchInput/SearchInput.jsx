@@ -4,6 +4,7 @@ import { setEmailTemplate } from "../../stores/slices/mainSlice";
 import { useRouter } from "next/router";
 import { app } from "../../utils/firebase";
 import {
+  addDoc,
   collection,
   getDocs,
   getFirestore,
@@ -34,7 +35,7 @@ function SearchInput({preload}) {
   const inputRef = React.useRef(null);
   const router = useRouter();
   // const emailTemplate = {
-  //   name: "General",
+  //   name: "Technical",
   //   template: [
   //     { type: "greetings", selection: ["Hello", "Hi", "Hey"], newline: true },
   //     {
@@ -91,10 +92,10 @@ function SearchInput({preload}) {
   };
   return (
     <div>
-      <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">
+      {/* <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">
         Search
-      </label>
-      <div className="relative">
+      </label> */}
+      {/* <div className="relative">
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -109,14 +110,14 @@ function SearchInput({preload}) {
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             ></path>
           </svg>
-        </div>
+        </div> */}
         {/* List with all the templates */}
         {templates && (
-          <div className="absolute w-full mt-1 bg-white rounded-md shadow-lg max-h-60 overflow-y-auto z-10 dark:bg-gray-800">
+          <div className=" w-full bg-gray-400 rounded-md shadow-lg h-96 m-auto overflow-y-auto z-10">
             {templates.map((template) => (
               <div 
                 key={template.name}
-                className="px-4 py-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                className="px-4 py-3 cursor-pointer hover:bg-gray-200 "
                 onClick={() => {
                   handleSubmit(template);
                 }}
@@ -134,7 +135,7 @@ function SearchInput({preload}) {
         >
           Search
         </button> */}
-      </div>
+      
     </div>
   );
 }
