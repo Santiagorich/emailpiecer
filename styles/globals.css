@@ -2,5 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 body {
-    background-color: theme('colors.gray.800');
+    background-color: theme('colors.gray.200');
 }

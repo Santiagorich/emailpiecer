@@ -92,6 +92,7 @@ function SearchInput({preload}) {
   };
   return (
     <div>
+      <span className="font-semibold">Select email template</span>
       {/* <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">
         Search
       </label> */}
@@ -117,7 +118,7 @@ function SearchInput({preload}) {
             {templates.map((template) => (
               <div 
                 key={template.name}
-                className="px-4 py-3 cursor-pointer hover:bg-gray-200 "
+                className="px-4 py-3 cursor-pointer hover:bg-gray-200 font-bold "
                 onClick={() => {
                   handleSubmit(template);
                 }}
