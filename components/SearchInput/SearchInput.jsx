@@ -31,6 +31,7 @@ function SearchInput({preload}) {
 
 
   const [templates, setTemplates] = useState(preload);
+  const [filteredTemplates, setFilteredTemplates] = useState([]);
   const dispatch = useDispatch();
   const inputRef = React.useRef(null);
   const router = useRouter();
@@ -80,6 +81,7 @@ function SearchInput({preload}) {
   //   ],
   // };
   useEffect(() => {
+    console.log("templates", preload);
     getAllTemplates().then((templates) => {
       setTemplates(templates);
     });
@@ -114,8 +116,30 @@ function SearchInput({preload}) {
         </div> */}
         {/* List with all the templates */}
         {templates && (
-          <div className=" w-full bg-gray-400 rounded-md shadow-lg h-96 m-auto overflow-y-auto z-10">
-            {templates.map((template) => (
+          <div className=" w-full rounded-md shadow-lg h-96 m-auto overflow-y-auto z-10">
+            <input
+              ref={inputRef}
+              type="text"
+              className="w-full h-12 px-10 bg-gray-200 focus:outline-none "
+              placeholder="Search"
+             onKeyUp={
+                (e) => {
+                  if (e.target.value === "") {
+                    setFilteredTemplates(templates);
+                  }
+                  else{
+                    setFilteredTemplates(
+                      templates.filter((template) =>
+                        template.name
+                          .toLowerCase()
+                          .includes(e.target.value.toLowerCase())
+                      )
+                    );
+                  }
+                }
+              }
+            />
+            {filteredTemplates.map((template) => (
               <div 
                 key={template.name}
                 className="px-4 py-3 cursor-pointer hover:bg-gray-200 font-bold "
