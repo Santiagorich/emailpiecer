@@ -24,7 +24,7 @@ export async function getStaticProps() {
 }
 function SearchInput({ preload }) {
   const [templates, setTemplates] = useState(preload);
-  const [filteredTemplates, setFilteredTemplates] = useState(templates);
+  const [filteredTemplates, setFilteredTemplates] = useState(preload);
   const dispatch = useDispatch();
   const inputRef = React.useRef(null);
   const router = useRouter();
@@ -77,6 +77,7 @@ function SearchInput({ preload }) {
     console.log("templates", preload);
     getAllTemplates().then((templates) => {
       setTemplates(templates);
+      setFilteredTemplates(templates);
     });
     // addDoc(collection(db, "templates"), emailTemplate);
   }, []);
@@ -129,7 +130,7 @@ function SearchInput({ preload }) {
               }
             }}
           />
-          {filteredTemplates.map((template) => (
+          {filteredTemplates && filteredTemplates.map((template) => (
             <div
               key={template.name}
               className="px-4 py-3 cursor-pointer hover:bg-gray-200 font-bold "
