@@ -3,12 +3,7 @@ import { useDispatch } from "react-redux";
 import { setEmailTemplate } from "../../stores/slices/mainSlice";
 import { useRouter } from "next/router";
 import { app } from "../../utils/firebase";
-import {
-  addDoc,
-  collection,
-  getDocs,
-  getFirestore,
-} from "firebase/firestore";
+import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
 const db = getFirestore(app);
 const getAllTemplates = async () => {
   let snapshot = await getDocs(collection(db, "templates"));
@@ -27,11 +22,9 @@ export async function getStaticProps() {
     revalidate: 120,
   };
 }
-function SearchInput({preload}) {
-
-
+function SearchInput({ preload }) {
   const [templates, setTemplates] = useState(preload);
-  const [filteredTemplates, setFilteredTemplates] = useState([]);
+  const [filteredTemplates, setFilteredTemplates] = useState(templates);
   const dispatch = useDispatch();
   const inputRef = React.useRef(null);
   const router = useRouter();
@@ -114,53 +107,49 @@ function SearchInput({preload}) {
             ></path>
           </svg>
         </div> */}
-        {/* List with all the templates */}
-        {templates && (
-          <div className=" w-full rounded-md shadow-lg h-96 m-auto overflow-y-auto z-10">
-            <input
-              ref={inputRef}
-              type="text"
-              className="w-full h-12 px-10 bg-gray-200 focus:outline-none "
-              placeholder="Search"
-             onKeyUp={
-                (e) => {
-                  if (e.target.value === "") {
-                    setFilteredTemplates(templates);
-                  }
-                  else{
-                    setFilteredTemplates(
-                      templates.filter((template) =>
-                        template.name
-                          .toLowerCase()
-                          .includes(e.target.value.toLowerCase())
-                      )
-                    );
-                  }
-                }
+      {/* List with all the templates */}
+      {templates && (
+        <div className=" w-full rounded-md shadow-lg h-96 m-auto overflow-y-auto z-10">
+          <input
+            ref={inputRef}
+            type="text"
+            className="w-full h-12 px-10 bg-gray-200 focus:outline-none "
+            placeholder="Search"
+            onKeyUp={(e) => {
+              if (e.target.value === "") {
+                setFilteredTemplates(templates);
+              } else {
+                setFilteredTemplates(
+                  templates.filter((template) =>
+                    template.name
+                      .toLowerCase()
+                      .includes(e.target.value.toLowerCase())
+                  )
+                );
               }
-            />
-            {filteredTemplates.map((template) => (
-              <div 
-                key={template.name}
-                className="px-4 py-3 cursor-pointer hover:bg-gray-200 font-bold "
-                onClick={() => {
-                  handleSubmit(template);
-                }}
-              >
-                {template.name}
-              </div>
-            ))}
-          </div>
-        )}
+            }}
+          />
+          {filteredTemplates.map((template) => (
+            <div
+              key={template.name}
+              className="px-4 py-3 cursor-pointer hover:bg-gray-200 font-bold "
+              onClick={() => {
+                handleSubmit(template);
+              }}
+            >
+              {template.name}
+            </div>
+          ))}
+        </div>
+      )}
 
-        {/* <button
+      {/* <button
           type="submit"
           onClick={() => handleSubmit(inputRef.current.value)}
           className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Search
         </button> */}
-      
     </div>
   );
 }
