@@ -9,8 +9,9 @@ function EmailPiecer() {
   const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
   const dispatch = useDispatch();
   const template = useSelector((state) => state.mainSlice.emailTemplate);
-  const emailTemplate = ((template&&template.template)?template.template:null);
-  const heading = `<strong>${template.name} Email</strong><br><br>`;
+  const emailTemplate =
+    template && template.template ? template.template : null;
+  const heading = `<strong>${(template && template.template)?template.name:null} Email</strong><br><br>`;
   const defaultLeading = `.`;
   const [email, setEmail] = React.useState(null);
   const createSentence = (emailTemplate) => {
@@ -85,7 +86,7 @@ function EmailPiecer() {
         </div>
         <div className="flex flex-row justify-between ">
           <div className="bg-blue-700 p-2 rounded-b-lg w-full flex justify-center">
-            <CopyToClipboard text={email} options={{format:'text/html'}}>
+            <CopyToClipboard text={email} options={{ format: "text/html" }}>
               <button className="text-white w-full">Copy to clipboard</button>
             </CopyToClipboard>
           </div>
