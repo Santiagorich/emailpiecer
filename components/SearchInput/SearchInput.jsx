@@ -83,7 +83,7 @@ function SearchInput({ preload }) {
   }, []);
 
   const handleSubmit = (template) => {
-    dispatch(setEmailTemplate(template.template));
+    dispatch(setEmailTemplate(template));
     router.push("/EmailPiecer");
   };
   return (

@@ -15,10 +15,15 @@ const mainSlice = createSlice({
     },
     setSelected: (state, action) => {
       const { index, selindex } = action.payload;
-      if (state.emailTemplate[index].selected === selindex) {
-        state.emailTemplate[index].selected = null;
+      if (!state.emailTemplate.template[index].selected) {
+        state.emailTemplate.template[index].selected = [];
+      }
+      const indexOfsel =
+        state.emailTemplate.template[index].selected.indexOf(selindex);
+      if (indexOfsel > -1) {
+        state.emailTemplate.template[index].selected.splice(indexOfsel, 1);
       } else {
-        state.emailTemplate[index].selected = selindex;
+        state.emailTemplate.template[index].selected.push(selindex);
       }
     },
   },
