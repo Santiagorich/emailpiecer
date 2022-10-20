@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 function EmailPiecer() {
   const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
   const dispatch = useDispatch();
-  const template = useSelector((state) => state.mainSlice.emailTemplate);
+  const template = useSelector((state) => state.persistedMain.emailTemplate);
   const emailTemplate =
     template && template.template ? template.template : null;
   const heading = `<strong>${(template && template.template)?template.name:null} Email</strong><br><br>`;
