@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEmailTemplate } from "../../stores/slices/mainSlice";
 import { useRouter } from "next/router";
@@ -26,7 +26,7 @@ function SearchInput({ preload }) {
   const [templates, setTemplates] = useState(preload);
   const [filteredTemplates, setFilteredTemplates] = useState(preload);
   const dispatch = useDispatch();
-  const inputRef = React.useRef(null);
+  const inputRef = useRef(null);
   const router = useRouter();
   // const emailTemplate = {
   //   name: "Technical",
@@ -117,6 +117,9 @@ function SearchInput({ preload }) {
             className="w-full h-12 px-10 bg-gray-200 focus:outline-none "
             placeholder="Search"
             onKeyUp={(e) => {
+              if (e.target.value !== "" && e.key === "Enter") {
+                handleSubmit(filteredTemplates[0]);
+              }
               if (e.target.value === "") {
                 setFilteredTemplates(templates);
               } else {
